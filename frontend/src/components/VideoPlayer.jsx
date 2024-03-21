@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import ReactPlayer from "react-player";
 import { MoviesContext } from "../context/MoviesContext.jsx";
+import { movieUrl, options } from "./fetchData/FetchData.jsx";
 
 function VideoPlayer() {
   const { movieId, setMovieId } = useContext(MoviesContext);
@@ -9,14 +10,10 @@ function VideoPlayer() {
   const fetchMovieById = async () => {
     try {
       if (movieId) {
-        const url = `https://api.themoviedb.org/3/movie/${movieId}/videos?language=en-US`;
-        const headers = {
-          accept: "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4NzdlMDBkMTIyZDg0MmZlZTYwYzFlNWY1MzUwZWVkNCIsInN1YiI6IjY1MmE2Yjk5MWYzZTYwMDExYzRhMmNmZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.27Of1P9G1YQOX5RsHqMkoga3b6WelSSkdIblIqP19YY",
-        };
-
-        const response = await axios.get(url, { headers });
+        const response = await fetch(
+          `${movieUrl}/movie/${movieId}/videos?language=en-US`,
+          options
+        );
 
         if (response.data.results && response.data.results.length > 0) {
           for (const video of response.data.results) {

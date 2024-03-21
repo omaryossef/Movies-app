@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Tabs,
   TabsHeader,
@@ -40,7 +40,7 @@ function ProfileTabsAnimation() {
         ))}
       </TabsHeader>{" "}
       <TabsBody
-        className="w-2/3 m-auto"
+        className="w-full m-auto flex"
         animate={{
           initial: { y: 250 },
           mount: { y: 0 },

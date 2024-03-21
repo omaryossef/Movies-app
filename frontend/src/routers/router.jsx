@@ -8,7 +8,6 @@ import AiringTodaySeries from "../pages/series/AiringTodaySeries.jsx";
 import OnTvSeries from "../pages/series/OnTvSeries.jsx";
 import PopularSeries from "../pages/series/PopularSeries.jsx";
 import TopRatedSeries from "../pages/series/TopRatedSeries.jsx";
-import LoginPage from "../pages/LoginPage.jsx";
 
 import MovieInfo from "../pages/movies/MovieInfo";
 import SeriesInfo from "../pages/series/SeriesInfo";
@@ -17,8 +16,13 @@ import HomePage from "../pages/HomePage.jsx";
 import MoviesPage from "../pages/MoviesPage.jsx";
 import UserProfile from "../pages/UserProfile.jsx";
 import ErrorPage from "../pages/ErrorPage.jsx";
+
+import SettingsPage from "../pages/SettingsPage.jsx";
+
 import RegisterPage from "../components/login/RegisterPage.jsx";
 import LandingPage from "../components/landingPage/LandingPage.jsx";
+import CommunityPage from "../pages/CommunityPage.jsx";
+import AdminPage from "../pages/AdminPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +30,7 @@ const router = createBrowserRouter([
     element: <RegisterPage />,
   },
   { path: "/", element: <LandingPage /> },
+
   {
     path: "/",
     element: <SidebarWithBurgerMenu />,
@@ -33,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "/home",
         element: <HomePage />,
+      },
+      {
+        path: "/community-page",
+        element: <CommunityPage />,
       },
       {
         path: "/movies",
@@ -72,9 +81,13 @@ const router = createBrowserRouter([
         element: <TopRatedSeries />,
       },
       {
-        path: "/movies-info/:id",
+        path: "/:mediaType/:id",
         element: <MovieInfo />,
       },
+      // {
+      //   path: "/movies-info/:id",
+      //   element: <MovieInfo />,
+      // },
       {
         path: "/series-info/:id",
         element: <SeriesInfo />,
@@ -86,6 +99,14 @@ const router = createBrowserRouter([
       {
         path: "*",
         element: <ErrorPage />,
+      },
+      {
+        path: "/settings",
+        element: <SettingsPage />,
+      },
+      {
+        path: "/admin-page",
+        element: <AdminPage />,
       },
     ],
   },

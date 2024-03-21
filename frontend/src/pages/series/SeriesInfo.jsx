@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { SeriesContext } from "../../context/SeriesContext";
 
 function SeriesInfo() {
-  const { seriesInfo, setSeriesInfo, fetchSeriesInfo } =
-    useContext(SeriesContext);
+  const { seriesInfo, setSeriesInfo } = useContext(SeriesContext);
   const { id } = useParams();
   console.log(seriesInfo);
   useEffect(() => {

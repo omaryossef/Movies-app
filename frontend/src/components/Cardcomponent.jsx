@@ -1,13 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   Typography,
-  Button,
-  Tooltip,
   IconButton,
   Menu,
   MenuHandler,
@@ -35,18 +32,14 @@ function Cardcomponent({
   };
   const favoriteHanlder = async () => {
     try {
-      const movieRes = await axios.post(
-        " http://localhost:3000/favorite-movie",
-        {
-          title: movieTitle,
-          movieId: cardId.toString(),
-          userId: userId,
-          imageUrl: imageUrl,
-          isFavorite: true,
-          isWatchlist: false,
-        },
-        { withCredentials: true }
-      );
+      const movieRes = await axios.post("/favorite-movie", {
+        title: movieTitle,
+        movieId: cardId.toString(),
+        userId: userId,
+        imageUrl: imageUrl,
+        isFavorite: true,
+        isWatchlist: false,
+      });
       if (movieRes.status === 201) {
         // Check if the movie is already in the user's list
         if (!user.movies.some((movie) => movie?.movieId === cardId)) {
@@ -76,18 +69,14 @@ function Cardcomponent({
   };
   const watchlistHandler = async () => {
     try {
-      const movieRes = await axios.post(
-        " http://localhost:3000/favorite-movie",
-        {
-          title: movieTitle,
-          movieId: cardId.toString(),
-          imageUrl: imageUrl,
-          userId: userId,
-          isFavorite: false,
-          isWatchlist: true,
-        },
-        { withCredentials: true }
-      );
+      const movieRes = await axios.post("favorite-movie", {
+        title: movieTitle,
+        movieId: cardId.toString(),
+        imageUrl: imageUrl,
+        userId: userId,
+        isFavorite: false,
+        isWatchlist: true,
+      });
       if (movieRes.status === 201) {
         // Check if the movie is already in the user's list
         if (!user.movies.some((movie) => movie?.movieId === cardId)) {

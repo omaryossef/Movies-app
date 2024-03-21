@@ -1,13 +1,11 @@
 /* eslint-disable react/prop-types */
-import React, { useContext } from "react";
+import { useContext } from "react";
 // import { Carousel, Typography, Button } from "@material-tailwind/react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { MoviesContext } from "../context/MoviesContext.jsx";
 import { SeriesContext } from "../context/SeriesContext.jsx";
 function CaruselComponent({ items }) {
-  const { movieId, setMovieId } = useContext(MoviesContext);
-  const { seriesId, setSeriesId } = useContext(SeriesContext);
+  const { setSeriesId } = useContext(SeriesContext);
 
   const responsive = {
     superLargeDesktop: {

@@ -1,61 +1,92 @@
-import { useRef, useState, useContext } from "react";
+import { useState, useContext } from "react";
 import "./register.scss";
 import { UserContext } from "../../context/UserContext";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { Button } from "@material-tailwind/react";
+import bg_logo from "../../assets/Mask group.png";
 const LandingPage = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser, admin, setAdmin } = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [hasEmail, setHasEmail] = useState(false);
   const [redirect, setRedirect] = useState(false);
-  const backendUrl = "http://localhost:3000"; //! --------- app.jsx axios.default
+  const navigate = useNavigate();
   async function handleLogin(e) {
     e.preventDefault();
     try {
-      const { data } = await axios.post(
-        `${backendUrl}/login`,
-        {
-          email,
-          password,
-        },
-        { withCredentials: true }
-      );
+      const { data } = await axios.post(`/login`, {
+        email,
+        password,
+      });
+      console.log("Data", data);
       if (!data) throw new Error();
+      if (data && data?.isAdmin === true) {
+        setAdmin(true);
+      }
       setUser(data);
       setRedirect(true);
     } catch (error) {
-      console.log("Login failed", error.response.data);
+      console.log("Login failed", error);
       alert("Login failed");
     }
   }
+  console.log("user", user);
   if (redirect) {
     return <Navigate to={"/home"} />;
+  } else {
+    <Navigate to={"/"} />;
   }
   return (
-    <div className="register">
+    <div
+      className="register"
+      style={{
+        background: `linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 1) 100%
+    ), url(${bg_logo})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+        backgroundRepeat: "no-repeat",
+        position: "fixed",
+      }}
+    >
       <div className="header">
+        <div className="opacity-layer"></div>
         <div className="wrapper">
           <div className="logo div-logo">
-            <img className="img-1" src="src/assets/movie-logo.png" alt="" />
+            <img className="img-1" src="./assets/movie-logo.png" alt="" />
             <img
               className="img-2"
-              src="src/assets/logo-no-background.svg"
+              src="./assets/logo-no-background.svg"
               alt=""
             />
           </div>
-
-          {/* <button className="loginButton">Sign In</button> */}
         </div>
       </div>
 
       <div className="container">
-        {/* <h1>Unlimited movies, TV shows, and more.</h1>
-                <h2>Watch anywhere. Cancel anytime.</h2>
-                <p>Ready to watch? Enter your email to create or restart your membership.</p> */}
+        <div>
+          <h2>
+            Don't have an account please{" "}
+            {/* <a onClick={() => navigate("/register")}>Regitser</a> */}
+            <a
+              href="/register"
+              className=" hover:text-blue-500 transition-colors 	text-decoration: underline"
+              style={{
+                color: "#f89e00",
+              }}
+            >
+              Sign up
+            </a>
+          </h2>
+        </div>
         {!hasEmail ? (
           <div className="input">
             <input
+              className="passwordInput"
               type="email"
               name="email"
               placeholder="Enter Your Email address"

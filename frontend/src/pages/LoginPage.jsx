@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, { useContext, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 function LoginPage() {
@@ -9,18 +9,13 @@ function LoginPage() {
   const [username, setUsername] = useState("");
   const [login, setLogin] = useState(true);
   const [redirect, setRedirect] = useState(false);
-
   const { setUser } = useContext(UserContext);
-  const backendUrl = "http://localhost:3000"; //! --------- app.jsx axios.default
+  const navigate = useNavigate();
 
   async function handleRegister(e) {
     e.preventDefault();
     try {
-      await axios.post(
-        `${backendUrl}/register`,
-        { username, email, password },
-        { withCredentials: true }
-      );
+      await axios.post(`/register`, { username, email, password });
       setLogin(true);
       alert("Account created successfully, please ");
     } catch (error) {
@@ -31,15 +26,13 @@ function LoginPage() {
   async function handleLogin(e) {
     e.preventDefault();
     try {
-      const { data } = await axios.post(
-        `${backendUrl}/login`,
-        {
-          email,
-          password,
-        },
-        { withCredentials: true }
-      );
+      const { data } = await axios.post(`login`, {
+        email,
+        password,
+      });
+
       if (!data) throw new Error();
+
       setUser(data);
       setRedirect(true);
     } catch (error) {
@@ -47,11 +40,13 @@ function LoginPage() {
       alert("Login failed");
     }
   }
+
   if (redirect) {
-    return <Navigate to={"/home"} />;
+    return navigate("/home");
   }
+
   return (
-    <div>
+    <>
       <div>
         {login && (
           <form className="max-w-sm mx-auto" onSubmit={handleLogin}>
@@ -89,9 +84,9 @@ function LoginPage() {
             <div className="flex items-start mb-5">
               <a
                 className="ms-2 text-m font-medium text-gray-500 underline  dark:text-black cursor-pointer"
-                onClick={(e) => setLogin(false)}
+                onClick={() => setLogin(false)}
               >
-                I don't have an account
+                I do not have an account
               </a>
             </div>
             <button
@@ -151,7 +146,7 @@ function LoginPage() {
             <div className="flex items-start mb-5">
               <a
                 className="ms-2 text-m font-medium text-gray-500  dark:text-black underline cursor-pointer"
-                onClick={(e) => setLogin(true)}
+                onClick={() => setLogin(true)}
               >
                 I already have an account
               </a>
@@ -165,8 +160,7 @@ function LoginPage() {
           </form>
         )}
       </div>
-      <div></div>
-    </div>
+    </>
   );
 }
 

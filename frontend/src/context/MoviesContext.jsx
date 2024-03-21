@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-
+import { movieUrl, options } from "../components/fetchData/FetchData.jsx";
 export const MoviesContext = createContext();
 
 export const MoviesProvider = ({ children }) => {
@@ -10,118 +10,52 @@ export const MoviesProvider = ({ children }) => {
   const [topRatedMovies, setTopRatedMovies] = useState([]);
   const [upComingMovies, setUpCompingMovies] = useState([]);
   const [movieVideo, setMovieVideo] = useState();
-  // console.log("movieId in context: ", movieId);
-  const fetchPlayingMovies = async () => {
-    try {
-      const options = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyODNiYTg1NjdiMTE2NGRiNGVkNGViMGM5ZjU2NjI2ZCIsInN1YiI6IjY1Y2NhM2NkODk0ZWQ2MDE3YzI3ZWI3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Pw8eoYZ5CaNJMj6lQ1SyYpvLFQbJviN9abfhsHQ8ASI",
-        },
-      };
-
-      const response = await fetch(
-        "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
-        options
-      );
-      const data = await response.json();
-
-      setNowPlayingMovies(data.results);
-    } catch (error) {
-      console.error(error);
-    }
+  const setMovies = {
+    nowPlaying: setNowPlayingMovies,
+    popular: setPopulatMovies,
+    topRated: setTopRatedMovies,
+    upcoming: setUpCompingMovies,
+    movieInfo: setMovieInfo,
   };
-  const fetchPopularMovies = async () => {
-    try {
-      const options = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyODNiYTg1NjdiMTE2NGRiNGVkNGViMGM5ZjU2NjI2ZCIsInN1YiI6IjY1Y2NhM2NkODk0ZWQ2MDE3YzI3ZWI3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Pw8eoYZ5CaNJMj6lQ1SyYpvLFQbJviN9abfhsHQ8ASI",
-        },
-      };
-
-      const response = await fetch(
-        "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
-        options
-      );
-      const data = await response.json();
-
-      setPopulatMovies(data.results.reverse());
-    } catch (error) {
-      console.error(error);
+  const fetchMovies = async (type, movieId) => {
+    let url = `${movieUrl}/movie/`;
+    switch (type) {
+      case "nowPlaying":
+        url += "now_playing";
+        break;
+      case "popular":
+        url += "popular";
+        break;
+      case "topRated":
+        url += "top_rated";
+        break;
+      case "upcoming":
+        url += "upcoming";
+        break;
+      case "movieInfo":
+        if (!movieId) return;
+        url += `${movieId}`;
+        break;
+      default:
+        return;
     }
-  };
-  const fetchTopRatedMovies = async () => {
+    url += "?language=en-US&page=1";
+
     try {
-      const options = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyODNiYTg1NjdiMTE2NGRiNGVkNGViMGM5ZjU2NjI2ZCIsInN1YiI6IjY1Y2NhM2NkODk0ZWQ2MDE3YzI3ZWI3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Pw8eoYZ5CaNJMj6lQ1SyYpvLFQbJviN9abfhsHQ8ASI",
-        },
-      };
-
-      const response = await fetch(
-        "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1",
-        options
-      );
+      const response = await fetch(url, options);
       const data = await response.json();
-
-      setTopRatedMovies(data.results);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  const fetchUpComingMovies = async () => {
-    try {
-      const options = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyODNiYTg1NjdiMTE2NGRiNGVkNGViMGM5ZjU2NjI2ZCIsInN1YiI6IjY1Y2NhM2NkODk0ZWQ2MDE3YzI3ZWI3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Pw8eoYZ5CaNJMj6lQ1SyYpvLFQbJviN9abfhsHQ8ASI",
-        },
-      };
-
-      const response = await fetch(
-        "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1",
-        options
-      );
-      const data = await response.json();
-      // console.log(data);
-      setUpCompingMovies(data.results);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  const fetchMovieInfo = async () => {
-    if (movieId) {
-      try {
-        const options = {
-          method: "GET",
-          headers: {
-            accept: "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyODNiYTg1NjdiMTE2NGRiNGVkNGViMGM5ZjU2NjI2ZCIsInN1YiI6IjY1Y2NhM2NkODk0ZWQ2MDE3YzI3ZWI3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Pw8eoYZ5CaNJMj6lQ1SyYpvLFQbJviN9abfhsHQ8ASI",
-          },
-        };
-
-        const response = await fetch(
-          `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
-          options
-        );
-        const data = await response.json();
-        setMovieInfo(data);
-      } catch (error) {
-        console.error(error);
+      if (type === "popular") {
+        setMovies[type](data.results.reverse());
+      } else if (type === "movieInfo") {
+        setMovies[type](data);
+      } else {
+        setMovies[type](data.results);
       }
+    } catch (error) {
+      console.error(error);
     }
   };
+
   return (
     <MoviesContext.Provider
       value={{
@@ -139,11 +73,7 @@ export const MoviesProvider = ({ children }) => {
         setUpCompingMovies,
         movieVideo,
         setMovieVideo,
-        fetchPlayingMovies,
-        fetchUpComingMovies,
-        fetchTopRatedMovies,
-        fetchPopularMovies,
-        fetchMovieInfo,
+        fetchMovies,
       }}
     >
       {children}
