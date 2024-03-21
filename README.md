@@ -35,7 +35,7 @@ Dieses Projekt ist ein Fullstack-Netflix-Klon, der React, Tailwind CSS und Mongo
 Das vollständige Projekt findest du auf GitHub:
 [Movies-Land](https://github.com/omaryossef/Movies-app?tab=readme-ov-file)
 
-Das Projekt ist auch auf [Render.com](https://movie-website-api-mbdn.onrender.com/) deployed.
+Das Projekt ist auch auf [Render.com](https://movies-app-fb6t.onrender.com) deployed.
 
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6?style=for-the-badge&logo=css3)
