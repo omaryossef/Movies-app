@@ -97,13 +97,17 @@ export function RatingWithComment() {
                       readOnly
                     />
                   </div>
-                  <Typography
-                    className="truncate ..."
-                    variant="paragraph"
-                    color="blue-gray"
-                  >
-                    &quot; {movie.comments?.comment} &quot;
-                  </Typography>
+                  {movie.comments.comment ? (
+                    <Typography
+                      className="truncate ..."
+                      variant="paragraph"
+                      color="blue-gray"
+                    >
+                      &quot; {movie.comments?.comment} &quot;
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
                 </div>
                 {user?.isAdmin && (
                   <IconButton

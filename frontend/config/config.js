@@ -1,6 +1,6 @@
 let url;
 if (process.env.NODE_ENV === "production") {
-  url = "https://movie-website-api-mbdn.onrender.com";
+  url = "https://movies-land-api.onrender.com";
 } else {
   url = "http://localhost:3000";
 }

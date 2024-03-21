@@ -1,4 +1,4 @@
-# Netflix-Klon-Projekt
+# Movies-Land
 
 ## Beschreibung
 
@@ -33,7 +33,7 @@ Dieses Projekt ist ein Fullstack-Netflix-Klon, der React, Tailwind CSS und Mongo
 ## Quellcode
 
 Das vollständige Projekt findest du auf GitHub:
-[Netflix-Clone-React](https://github.com/Final-projekt/movie-website)
+[Movies-Land](https://github.com/omaryossef/Movies-app?tab=readme-ov-file)
 
 Das Projekt ist auch auf [Render.com](https://movie-website-api-mbdn.onrender.com/) deployed.
 

@@ -26,7 +26,7 @@ app.use(
     origin:
       process.env.NODE_ENV === "development"
         ? "http://localhost:5173"
-        : "https://movie-website-mqnf.onrender.com",
+        : "https://movies-app-fb6t.onrender.com",
   })
 );
 app.set("trust proxy", 1);
