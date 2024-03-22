@@ -58,4 +58,4 @@ router
 router
   .post("/upload/:userId", uploadImage)
   .get("/get-image/:id", getImageById)
-  .delete("/delete/:id", deleteImageById);
+  .delete("/delete-image/:id", deleteImageById);

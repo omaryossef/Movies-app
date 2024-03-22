@@ -22,15 +22,11 @@ export const PhotoUpload = ({ onImageUpload }) => {
       const imageData = JSON.stringify({ base64: photo });
       console.log("USERID FROM PHOTOUPLOAD", user._id);
       try {
-        const response = await axios.post(
-          `http://localhost:3000/upload/${user._id}`,
-          imageData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await axios.post(`/upload/${user._id}`, imageData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         alert("Image uploaded successfully");
         onImageUpload();
         console.timeEnd("Upload");
@@ -44,9 +40,7 @@ export const PhotoUpload = ({ onImageUpload }) => {
   }
   async function deleteImage() {
     try {
-      const response = await axios.delete(
-        `http://localhost:3000/delete/${user._id}`
-      );
+      const response = await axios.delete(`/delete-image/${user._id}`);
       console.log(response.data);
       alert("Image deleted successfully");
       onImageUpload();
