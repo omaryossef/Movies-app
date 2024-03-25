@@ -17,10 +17,8 @@ const UpdateUsername = () => {
       });
 
       alert(response.data);
-      console.log();
-
       newUsernameRef.current.value = "";
-      await signout();
+      // await signout();
     } catch (error) {
       console.error("Fehler beim Aktualisieren des Benutzernamens:", error);
       alert("Fehler beim Aktualisieren des Benutzernamens.");
@@ -38,21 +36,27 @@ const UpdateUsername = () => {
   return (
     <div className="flex flex-col gap-2 items-center">
       <div>
+        <p className="text-center text-lg text-black pb-4">
+          Username: {user?.username}
+        </p>
         <input
           style={{
             backgroundColor: "transparent",
             textAlign: "center",
             color: "white",
           }}
-          className="flex-grow p-3 sm:p-2 border rounded-md font-bold text-lg"
+          className="flex-grow p-3 sm:p-2 border rounded-md mb-4 font-bold text-lg"
           type="text"
           placeholder="New Username"
           ref={newUsernameRef}
         />
       </div>
       <button
-        className="px-8 py-3 rounded-lg size-xxl bg-pink-900  text-white cursor-pointer text-lg"
+        className="px-8 py-3 rounded-lg size-xxl text-white cursor-pointer text-md"
         onClick={updateUsername}
+        style={{
+          backgroundColor: "#da2f68",
+        }}
       >
         UPDATE USERNAME
       </button>

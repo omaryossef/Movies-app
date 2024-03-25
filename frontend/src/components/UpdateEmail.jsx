@@ -17,7 +17,7 @@ const UpdateEmail = () => {
 
       alert(response.data);
       emailRef.current.value = "";
-      await signout();
+      // await signout();
     } catch (error) {
       console.error("Fehler beim Aktualisieren der E-Mail-Adresse:", error);
       alert("Fehler beim Aktualisieren der E-Mail-Adresse.");
@@ -35,18 +35,23 @@ const UpdateEmail = () => {
 
   return (
     <div className="flex flex-col gap-2 items-center">
-      <p>{user?.email}</p>
+      <p className="text-center text-lg text-black pb-4">
+        Email: {user?.email}
+      </p>
       <div>
         <input
           style={{ backgroundColor: "transparent", textAlign: "center" }}
-          className="flex-grow p-3 sm:p-2 border rounded-md text-white font-bold text-lg"
+          className="flex-grow p-3 sm:p-2 border mb-4 rounded-md text-white font-bold text-lg"
           type="email"
           placeholder="New Email"
           ref={emailRef}
         />
       </div>
       <button
-        className="px-12 py-3 rounded-lg size-xxl bg-pink-900 text-white cursor-pointer text-lg"
+        style={{
+          backgroundColor: "#da2f68",
+        }}
+        className="px-12 py-3 rounded-lg size-xxl  text-white cursor-pointer text-md"
         onClick={updateEmail}
       >
         UPDATE EMAIL

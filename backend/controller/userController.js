@@ -1,11 +1,15 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
+
 const jwtSecret = "movie";
+
 export const postRegisterUser = async (req, res) => {
   const { username, email, password } = req.body;
-  const salt = process.env.SALT;
   try {
+    const saltRounds = 10; // Anzahl der Runden für das Salz
+    const salt = await bcrypt.genSalt(saltRounds); // Generierung des Salzes
+    const hashedPassword = await bcrypt.hash(password, salt); // Hashen des Passworts
     const user = await userModel.create({
       username,
       email,
@@ -18,10 +22,11 @@ export const postRegisterUser = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
 export const postLoginUser = async (req, res) => {
+
   const { email, password } = await req.body;
-  console.log("email", email);
-  console.log("password", password);
+
   try {
     if (!email && !password) throw new Error("Please enter a valid email");
     if (email.trim() === "test@mail.com") {
@@ -43,13 +48,14 @@ export const postLoginUser = async (req, res) => {
             (err, token) => {
               if (err) throw err;
               res
-                .cookie("token", token, {
+      .cookie("token", token, {
                   maxAge: 90000000,
                   httpOnly: true,
                   sameSite:
                     process.env.NODE_ENV === "production" ? "None" : "Lax",
                   secure: process.env.NODE_ENV === "production",
                 })
+
                 .json({ _id: user._id, isAdmin: user.isAdmin });
             }
           );
@@ -89,11 +95,13 @@ export const postLoginUser = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log("error in loginController catch");
-    console.log(error);
-    res.status(401).send("user not found");
+
+    console.error(error.message);
+    res.status(401).json(error.message);
+
   }
 };
+
 export const postSignoutUser = async (req, res) => {
   res.clearCookie("token", {
     sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
@@ -101,43 +109,46 @@ export const postSignoutUser = async (req, res) => {
   });
   res.send("signout user");
 };
+
 export const getValidateUser = async (req, res) => {
-  const { token } = await req.cookies;
+  const { token } = req.cookies;
   if (!token) return res.status(401).send("Access denied. No token provided.");
+
   try {
-    jwt.verify(token, jwtSecret, {}, async (err, tokenData) => {
-      if (err) throw err;
-      const user = await userModel.findById(tokenData.id);
-      const { _id, username, email, movies, image, isAdmin } = user;
-      res.status(200).json({ _id, username, email, movies, image, isAdmin });
-      console.log("token überprüft");
-    });
+    const tokenData = jwt.verify(token, jwtSecret);
+    const user = await userModel.findById(tokenData.id);
+    if (!user) throw new Error("User not found");
+
+    const { _id, username, email, movies, image, isAdmin } = user;
+    res.status(200).json({ _id, username, email, movies, image, isAdmin });
+    console.log("Token verified");
   } catch (error) {
-    res.status(400).json("error invalid token");
+    console.error(error.message);
+    res.status(400).json("Error: Invalid token");
   }
 };
+
 export const getAllUsers = async (req, res) => {
   try {
-    const allUsers = await userModel.find();
+    const allUsers = await userModel.find({ isAdmin: false });
     if (!allUsers || allUsers.length === 0) {
-      return res.status(404).json({ message: "Keine Benutzer gefunden" });
+      return res.status(404).json({ message: "No users found" });
     }
 
-    const usersInfo = allUsers
-      .filter((user) => user.isAdmin === false)
-      .map((user) => ({
-        _id: user._id,
-        username: user.username,
-        email: user.email,
-        movies: user.movies,
-        image: user.image,
-        isAdmin: user.isAdmin,
-        createdAt: user.createdAt,
-      }));
+    const usersInfo = allUsers.map((user) => ({
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      movies: user.movies,
+      image: user.image,
+      isAdmin: user.isAdmin,
+      createdAt: user.createdAt,
+    }));
 
     res.status(200).json(usersInfo);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error(error.message);
+    res.status(500).json({ message: "Server error" });
   }
 };
 

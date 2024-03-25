@@ -52,7 +52,7 @@ const VideosSection = ({ movieInfo, video, id }) => {
                                 </div>
                             ))
                         ) : (
-                            <div className="noVideos">No videos found</div>
+                            <div className="noVideos text-red-600"></div>
                         )}
                     </div>
                 ) : (

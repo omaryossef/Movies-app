@@ -20,7 +20,8 @@ const UpdatePassword = () => {
       alert(response.data);
       currentPasswordRef.current.value = "";
       newPasswordRef.current.value = "";
-      await signout();
+      // await signout();
+      await validate;
     } catch (error) {
       console.error("Fehler beim Aktualisieren des Passworts:", error);
       alert("Fehler beim Aktualisieren des Passworts.");
@@ -41,7 +42,7 @@ const UpdatePassword = () => {
       <div>
         <input
           style={{ backgroundColor: "transparent", textAlign: "center" }}
-          className="flex-grow p-3 sm:p-2 border rounded-md text-white font-bold text-lg"
+          className="flex-grow p-3 sm:p-2 border rounded-md text-black font-bold text-lg"
           type="password"
           placeholder="Current Password"
           ref={currentPasswordRef}
@@ -50,15 +51,18 @@ const UpdatePassword = () => {
       <div>
         <input
           style={{ backgroundColor: "transparent", textAlign: "center" }}
-          className="flex-grow p-3 sm:p-2 border rounded-md text-white font-bold text-lg"
+          className="flex-grow p-3 sm:p-2 border rounded-md text-black font-bold text-lg"
           type="password"
           placeholder="New Password"
           ref={newPasswordRef}
         />
       </div>
       <button
-        className="px-8 py-3 rounded-lg size-xxl bg-pink-900 text-white cursor-pointer text-lg"
+        className="px-8 py-3 rounded-lg size-xxl text-white cursor-pointer text-md"
         onClick={updatePassword}
+        style={{
+          backgroundColor: "#da2f68",
+        }}
       >
         UPDATE PASSWORD
       </button>

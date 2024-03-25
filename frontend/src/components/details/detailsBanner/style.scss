@@ -45,7 +45,10 @@
     gap: 25px;
     @include md {
       gap: 50px;
+     margin-top: 0px;
+     padding-top: 0px;
       flex-direction: row;
+      align-items: center;
     }
     .left {
       flex-shrink: 0;
