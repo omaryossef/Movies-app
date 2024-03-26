@@ -41,7 +41,7 @@ const UpdateEmail = () => {
       <div>
         <input
           style={{ backgroundColor: "transparent", textAlign: "center" }}
-          className="flex-grow p-3 sm:p-2 border mb-4 rounded-md text-white font-bold text-lg"
+          className="flex-grow p-3 sm:p-2 border mb-4 rounded-md text-black font-bold text-lg"
           type="email"
           placeholder="New Email"
           ref={emailRef}
