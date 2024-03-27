@@ -100,7 +100,7 @@ function FavoritePage() {
                 className="mb-0 sm:mb-2 h-4"
                 value={raitingValue}
                 onChange={(raitingValue) => setRaitingValue(raitingValue)}
-                onClick={() => commentHandler(movie.movieId)}
+                // onClick={() => commentHandler(movie.movieId)}
               />
               {!clickedComments[movie.movieId] ? (
                 <>
