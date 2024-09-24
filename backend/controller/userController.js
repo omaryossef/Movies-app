@@ -24,7 +24,6 @@ export const postRegisterUser = async (req, res) => {
 };
 
 export const postLoginUser = async (req, res) => {
-
   const { email, password } = await req.body;
 
   try {
@@ -48,7 +47,7 @@ export const postLoginUser = async (req, res) => {
             (err, token) => {
               if (err) throw err;
               res
-      .cookie("token", token, {
+                .cookie("token", token, {
                   maxAge: 90000000,
                   httpOnly: true,
                   sameSite:
@@ -95,10 +94,8 @@ export const postLoginUser = async (req, res) => {
       }
     }
   } catch (error) {
-
     console.error(error.message);
     res.status(401).json(error.message);
-
   }
 };
 
@@ -124,7 +121,7 @@ export const getValidateUser = async (req, res) => {
     console.log("Token verified");
   } catch (error) {
     console.error(error.message);
-    res.status(400).json("Error: Invalid token");
+    res.status(400).send("Error: Invalid token");
   }
 };
 
