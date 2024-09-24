@@ -6,7 +6,7 @@ export const postMovieId = async (req, res) => {
   try {
     const user = await userModel.findById(id);
     if (user) {
-      // Check if any movie in the user's movies array has the same movieId
+      // Check if any movie in the user's movies array has the same movieId/
       const isDuplicateMovie = user.movies.some(
         (movie) => movie.movieId === movieId
       );
